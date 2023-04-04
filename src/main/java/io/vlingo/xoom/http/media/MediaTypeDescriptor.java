@@ -19,55 +19,57 @@ public abstract class MediaTypeDescriptor {
 
   protected final String mimeType;
   protected final String mimeSubType;
-  public final Map<String, String> parameters;
+  public final Map<String, String> mediaTypeParameters;
 
   public MediaTypeDescriptor(String mimeType, String mimeSubType, Map<String, String> parameters) {
     this.mimeType = mimeType;
     this.mimeSubType = mimeSubType;
-    this.parameters = new HashMap<>(parameters);
+    this.mediaTypeParameters = new HashMap<>(parameters);
   }
 
   public MediaTypeDescriptor(String mimeType, String mimeSubType) {
     this.mimeType = mimeType;
     this.mimeSubType = mimeSubType;
-    this.parameters = new HashMap<>();
+    this.mediaTypeParameters = new HashMap<>();
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(mimeType)
-      .append(MIME_SUBTYPE_SEPARATOR)
-      .append(mimeSubType);
+        .append(MIME_SUBTYPE_SEPARATOR)
+        .append(mimeSubType);
 
-    for (String parameterName : parameters.keySet()) {
+    for (String parameterName : mediaTypeParameters.keySet()) {
       sb.append(PARAMETER_SEPARATOR)
-        .append(parameterName)
-        .append(PARAMETER_ASSIGNMENT)
-        .append(parameters.get(parameterName));
+          .append(parameterName)
+          .append(PARAMETER_ASSIGNMENT)
+          .append(mediaTypeParameters.get(parameterName));
     }
     return sb.toString();
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     MediaTypeDescriptor that = (MediaTypeDescriptor) o;
     return Objects.equals(mimeType, that.mimeType) &&
-      Objects.equals(mimeSubType, that.mimeSubType) &&
-      Objects.equals(parameters, that.parameters);
+        Objects.equals(mimeSubType, that.mimeSubType) &&
+        Objects.equals(mediaTypeParameters, that.mediaTypeParameters);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mimeType, mimeSubType, parameters);
+    return Objects.hash(mimeType, mimeSubType, mediaTypeParameters);
   }
 
   public static class Builder<T> {
     protected String mimeType;
     protected String mimeSubType;
-    protected Map<String, String> parameters;
+    protected Map<String, String> mediaTypeParameters;
     protected final Supplier<T> supplier;
 
     @FunctionalInterface
@@ -77,7 +79,7 @@ public abstract class MediaTypeDescriptor {
 
     public Builder(Supplier<T> supplier) {
       this.supplier = supplier;
-      parameters = new HashMap<>();
+      mediaTypeParameters = new HashMap<>();
       mimeType = "";
       mimeSubType = "";
     }
@@ -93,12 +95,12 @@ public abstract class MediaTypeDescriptor {
     }
 
     Builder<T> withParameter(final String paramName, final String paramValue) {
-      parameters.put(paramName, paramValue);
+      mediaTypeParameters.put(paramName, paramValue);
       return this;
     }
 
     T build() {
-      return this.supplier.supply(mimeType, mimeSubType, parameters);
+      return this.supplier.supply(mimeType, mimeSubType, mediaTypeParameters);
     }
   }
 }

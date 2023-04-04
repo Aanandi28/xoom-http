@@ -13,7 +13,7 @@ import io.vlingo.xoom.http.resource.MediaTypeNotSupportedException;
 
 public class ContentMediaType extends MediaTypeDescriptor {
 
-  //IANA MIME Type List
+  // IANA MIME Type List
   enum mimeTypes {
     application,
     audio,
@@ -44,7 +44,7 @@ public class ContentMediaType extends MediaTypeDescriptor {
   }
 
   public ContentMediaType toBaseType() {
-    if (parameters.isEmpty()) {
+    if (mediaTypeParameters.isEmpty()) {
       return this;
     }
     return new ContentMediaType(mimeType, mimeSubType);
@@ -58,17 +58,24 @@ public class ContentMediaType extends MediaTypeDescriptor {
     return new ContentMediaType(mimeTypes.application.name(), "xml");
   }
 
-  public static  ContentMediaType PlainText() { return new ContentMediaType(mimeTypes.text.name(), "plain"); }
+  public static ContentMediaType PlainText() {
+    return new ContentMediaType(mimeTypes.text.name(), "plain");
+  }
 
-  public static ContentMediaType BinaryContent() { return new ContentMediaType(mimeTypes.application.name(), "octet-stream"); }
+  public static ContentMediaType BinaryContent() {
+    return new ContentMediaType(mimeTypes.application.name(), "octet-stream");
+  }
 
-  public static ContentMediaType CompressedZipContent() { return new ContentMediaType(mimeTypes.application.name(), "gzip"); }
+  public static ContentMediaType CompressedZipContent() {
+    return new ContentMediaType(mimeTypes.application.name(), "gzip");
+  }
 
-  public static ContentMediaType CompressedTarContent() { return new ContentMediaType(mimeTypes.application.name(), "octet-stream"); }
-
+  public static ContentMediaType CompressedTarContent() {
+    return new ContentMediaType(mimeTypes.application.name(), "octet-stream");
+  }
 
   public static ContentMediaType parseFromDescriptor(String contentMediaTypeDescriptor) {
     return MediaTypeParser.parseFrom(contentMediaTypeDescriptor,
-      new MediaTypeDescriptor.Builder<>(ContentMediaType::new));
+        new MediaTypeDescriptor.Builder<>(ContentMediaType::new));
   }
 }

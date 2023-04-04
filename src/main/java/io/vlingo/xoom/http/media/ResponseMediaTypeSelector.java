@@ -31,7 +31,7 @@ public class ResponseMediaTypeSelector {
 
     for (String acceptedContentTypeDescriptor : acceptedContentTypeDescriptors) {
       AcceptMediaType acceptMediaType = MediaTypeParser.parseFrom(acceptedContentTypeDescriptor.trim(),
-        new MediaTypeDescriptor.Builder<>(AcceptMediaType::new));
+          new MediaTypeDescriptor.Builder<>(AcceptMediaType::new));
       responseMediaTypesByPriority.add(acceptMediaType);
     }
   }
@@ -49,7 +49,6 @@ public class ResponseMediaTypeSelector {
     throw new MediaTypeNotSupportedException(mediaTypeDescriptors);
   }
 
-
   static class AcceptMediaType extends MediaTypeDescriptor implements Comparable<AcceptMediaType> {
 
     private static final String MIME_TYPE_WILDCARD = "*";
@@ -65,7 +64,8 @@ public class ResponseMediaTypeSelector {
       if (parameters.containsKey(QUALITY_FACTOR_PARAMETER)) {
         try {
           qualityFactor = Float.parseFloat(parameters.get(QUALITY_FACTOR_PARAMETER));
-        } catch (NumberFormatException ignored) { }
+        } catch (NumberFormatException ignored) {
+        }
       }
       this.qualityFactor = qualityFactor;
     }
@@ -103,12 +103,11 @@ public class ResponseMediaTypeSelector {
     }
 
     private int compareParameters(final AcceptMediaType other) {
-      return Integer.compare(parameters.size(), other.parameters.size());
+      return Integer.compare(mediaTypeParameters.size(), other.mediaTypeParameters.size());
     }
 
     boolean isSameOrSuperTypeOf(final ContentMediaType contentMediaType) {
-      return
-        (isGenericType() || mimeType.equals(contentMediaType.mimeType))
+      return (isGenericType() || mimeType.equals(contentMediaType.mimeType))
           && (isGenericSubType() || mimeSubType.equals(contentMediaType.mimeSubType));
     }
 
